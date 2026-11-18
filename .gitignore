@@ -1,0 +1,10 @@
+.venv/
+__pycache__/
+*.pyc
+.web-venv/
+server-data/
+server-config.json
+.env
+dist/
+server-preview*.log
+Email results */

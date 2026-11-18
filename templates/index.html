@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="{{ csrf }}">
+  <title>Email Cleaner · Company workspace</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
+  <script src="{{ url_for('static', filename='app.js') }}" defer></script>
+</head>
+<body data-signed-in="{{ 'true' if signed_in else 'false' }}">
+<header><a class="brand" href="/"> <span class="mark">@</span> Email Cleaner</a><span class="workspace">COMPANY WORKSPACE</span><button id="logout" class="quiet" {{ 'hidden' if not signed_in else '' }}>Sign out</button></header>
+<main>
+  <section id="login-panel" class="login panel" {{ 'hidden' if signed_in else '' }}>
+    <span class="eyebrow">YOUR TEAM’S EMAIL WORKSPACE</span><h1>A cleaner list starts here.</h1><p>Sign in with the team password provided by your administrator.</p>
+    <form id="login-form"><label for="password">Team password</label><input id="password" type="password" autocomplete="current-password" required><button class="primary" type="submit">Sign in</button></form>
+  </section>
+  <div id="app-panel" {{ '' if signed_in else 'hidden' }}>
+    <div class="page-heading"><div><span class="eyebrow">CONTACT LIST CLEANUP</span><h1>Make your next list a clean one.</h1><p>Upload your file. Check your addresses. Download the results.</p></div><span class="pill">Excel + Word supported</span></div>
+    <div class="work-grid">
+      <section class="panel upload-panel"><div class="section-title"><span class="step">01</span><h2>Upload your list</h2></div>
+        <form id="upload-form">
+          <label class="drop-zone" id="drop-zone" for="file"><span class="upload-icon">↑</span><strong id="file-label">Choose a file or drop it here</strong><span>Excel, Word .docx, CSV, TSV or text</span><span class="small">Up to 20 MB · 50,000 email candidates</span><input id="file" name="file" type="file" accept=".xlsx,.xls,.docx,.csv,.tsv,.txt" required></label>
+          <button id="validate" type="submit" class="primary wide">Validate emails <span aria-hidden="true">→</span></button>
+        </form>
+        <div id="progress-panel" hidden><div class="progress-text"><span id="stage">Reading your file…</span><span id="percent">0%</span></div><progress id="progress" max="100" value="0">0%</progress></div>
+        <p class="small note">We read every sheet and visible Word text, including tables. Save older .doc files as .docx first.</p>
+      </section>
+      <aside class="guide"><span class="eyebrow">WHAT GETS CHECKED</span><h2>A little clarity. <br>A much better list.</h2><ol><li><strong>Address format</strong><span>Find malformed addresses and normalize valid ones.</span></li><li><strong>Duplicates & disposable domains</strong><span>Separate repeated addresses and known temporary email domains.</span></li><li><strong>Mail-domain records</strong><span>Check DNS routing. Temporary failures stay in “Needs review”.</span></li></ol><p class="small">A clean result confirms format and domain checks. It does not confirm that a mailbox exists.</p></aside>
+    </div>
+    <section id="results" class="results" hidden>
+      <div class="result-heading"><div><span class="eyebrow">02 / YOUR RESULTS</span><h2 id="result-title">Validation complete</h2><p id="result-description"></p></div><div class="download-actions"><a id="excel-download" class="button secondary">Excel report</a><a id="clean-download" class="button primary">Download clean emails ↓</a></div></div>
+      <div class="metrics"><div><span>Clean</span><strong id="count-clean">0</strong><small>Ready to export</small></div><div><span>Rejected</span><strong id="count-rejected">0</strong><small>Check the reason below</small></div><div><span>Needs review</span><strong id="count-review">0</strong><small>Retry these addresses later</small></div><div><span>Duplicates</span><strong id="count-duplicate">0</strong><small>Removed from the clean list</small></div></div>
+      <div class="table-panel"><div class="table-tools"><label for="filter">Show <select id="filter"><option value="all">All results</option><option value="clean">Clean</option><option value="rejected">Rejected</option><option value="review">Needs review</option><option value="duplicate">Duplicates</option></select></label><a id="all-download">Download all files (.zip)</a></div><div class="table-scroll"><table><thead><tr><th>Email address</th><th>Result</th><th>Reason</th><th>Source</th></tr></thead><tbody id="rows"></tbody></table></div><div class="pagination"><span id="page-info"></span><div><button id="previous" class="quiet">Previous</button><button id="next" class="quiet">Next</button></div></div></div>
+      <p class="small">Download your results before leaving. Results expire after one hour and become unavailable if the server restarts.</p>
+    </section>
+  </div>
+  <div id="message" role="status" aria-live="polite" hidden></div>
+</main><footer>Hosted on your company’s server <span>Files are processed on the server. Domain names are checked through DNS. No emails are sent.</span></footer>
+</body></html>

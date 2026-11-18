@@ -1,0 +1,5 @@
+Name,Email
+Example contact,sample.contact@gmail.com
+Duplicate,sample.contact@GMAIL.COM
+Malformed,not-an-email
+Temporary mailbox,demo@mailinator.com

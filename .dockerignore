@@ -1,0 +1,9 @@
+.git
+.venv
+.web-venv
+__pycache__
+server-data
+server-config.json
+.env
+dist
+tests
